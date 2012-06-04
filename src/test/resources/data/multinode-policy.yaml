@@ -1,9 +1,10 @@
 drivers:
-- modify: 1
+- update: 1
   age: 56
-- add:
+- add: com.thoughtworks.Driver
   firstName: John
   lastName: Stoj
   age: 56
   address:
     suburb: Fitzroy
+

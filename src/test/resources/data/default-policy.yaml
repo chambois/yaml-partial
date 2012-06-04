@@ -1,7 +1,6 @@
 name: default
 email: 123@example.com
 drivers:
-# Driver 1
 - firstName: Joe
   lastName: Smith
   age: 44
@@ -9,30 +8,6 @@ drivers:
     streetNumber: 1
     street: Smith
     suburb: Hawthorn
-# Driver 2
-- firstName:
-  lastName:
-  age:
-  address:
-    streetNumber:
-    street:
-    suburb:
-# Driver 3
-- firstName:
-  lastName:
-  age:
-  address:
-    streetNumber:
-    street:
-    suburb:
-# Driver 4
-- firstName:
-  lastName:
-  age:
-  address:
-    streetNumber:
-    street:
-    suburb:
 car:
   make: Ford
   model: Focus

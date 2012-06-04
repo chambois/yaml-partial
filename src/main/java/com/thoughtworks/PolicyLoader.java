@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -61,21 +61,47 @@ public class PolicyLoader {
                 if (value instanceof Map) {
                     updateObject(getFieldObject(object, fieldName), (Map) value);
                 } else if (value instanceof List) {
-                    for (Object item : (List) value) {
-                        updateObject(getFieldObject(object, fieldName), (Map) item);
-                    }
+                    processList(object, fieldName, (List) value);
                 } else {
-                    if (object instanceof ArrayList) {
-                        object = ((ArrayList) object).get(0);
-                    }
-                    Field field = object.getClass().getDeclaredField(fieldName);
-                    Method method = object.getClass().getMethod("set" + capitalize(fieldName), field.getType());
-                    method.invoke(object, value);
+                    object = ifListGetObject(object);
+                    updateField(object, fieldName, value);
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Object ifListGetObject(Object object) {
+        if (object instanceof List) {
+            object = ((List) object).get(0);
+        }
+        return object;
+    }
+
+    private void processList(Object object, String fieldName, List values) {
+        for (Object objectDef : values) {
+            Map objectDefMap = (Map) objectDef;
+            Iterator entriesIterator = objectDefMap.entrySet().iterator();
+            String command = (String) entriesIterator.next();
+            if (command.equals("update")) {
+                System.out.println("updating...");
+            } else if (command.equals("add")) {
+                System.out.println("adding...");
+            }
+        }
+    }
+
+    private void updateObjects(Object object, String fieldName, List value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        for (Object item : (List) value) {
+            updateObject(getFieldObject(object, fieldName), (Map) item);
+        }
+    }
+
+    private void updateField(Object object, String fieldName, Object value) throws NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Field field = object.getClass().getDeclaredField(fieldName);
+        Method method = object.getClass().getMethod("set" + capitalize(fieldName), field.getType());
+        method.invoke(object, value);
     }
 
     private Object getFieldObject(Object object, String fieldName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
