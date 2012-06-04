@@ -1,0 +1,46 @@
+load the default policy data into a defaultPolicy bean from the default-policy.yaml file
+
+if the policy file to be loaded is not the default one
+  then identify the fields in the varied policy files
+  and override with these values in their respective fields in defaultPolicy
+
+---
+
+load the defaul-policy.yaml file
+
+if the policy file to be loaded is not the default one
+  load the varied policy partial file and override the respective values in default-policy
+
+create the policy bean
+
+---
+
+can yaml do some trickery to override with partials?
+
+---
+
+could just overwrite yaml document before loading
+  regex / find-replace
+  hook into snakeyaml (or other lib), and find/replace in map (before it gets turned into bean)
+
+---
+
+load defaultYaml as Object
+load partialYaml as Object
+
+find and replace values in defaultYaml map
+
+convert defaultYaml map into Policy
+
+---
+
+if object contains properties that contain other objects
+  go into those other objects (ad infinity)
+    for each field in the object
+      if the field is not null
+        copy it
+else
+  for each field in the object
+    if the field is not null
+      copy it
+

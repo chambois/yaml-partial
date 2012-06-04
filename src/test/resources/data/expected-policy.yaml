@@ -1,0 +1,9 @@
+name: defaults
+driver:
+  firstName: Bob
+  lastName: Johnson
+  age: 56
+car:
+  make: Ford
+  model: Focus
+  year: 2011

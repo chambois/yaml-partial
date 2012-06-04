@@ -1,0 +1,9 @@
+drivers:
+- modify: 1
+  age: 56
+- add:
+  firstName: John
+  lastName: Stoj
+  age: 56
+  address:
+    suburb: Fitzroy

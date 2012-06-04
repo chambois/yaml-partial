@@ -1,0 +1,6 @@
+drivers:
+- firstName: Bob
+  lastName: Johnson
+  age: 56
+  address:
+    suburb: Carlton
