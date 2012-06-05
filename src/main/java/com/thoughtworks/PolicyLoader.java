@@ -12,10 +12,10 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.thoughtworks.util.Lists.getGenericClass;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class PolicyLoader {
@@ -79,22 +79,14 @@ public class PolicyLoader {
         return object;
     }
 
-    private void processList(Object object, String fieldName, List values) {
-        for (Object objectDef : values) {
-            Map objectDefMap = (Map) objectDef;
-            Iterator entriesIterator = objectDefMap.entrySet().iterator();
-            String command = (String) entriesIterator.next();
-            if (command.equals("update")) {
-                System.out.println("updating...");
-            } else if (command.equals("add")) {
-                System.out.println("adding...");
-            }
-        }
-    }
-
-    private void updateObjects(Object object, String fieldName, List value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        for (Object item : (List) value) {
-            updateObject(getFieldObject(object, fieldName), (Map) item);
+    private void processList(Object object, String fieldName, List values) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+        // Get the collection
+        List listObject = (List) getFieldObject(object, fieldName);
+        Class listElementsClass = getGenericClass(object, fieldName);
+        for (Object value : values) {
+            Object listElement = listElementsClass.newInstance();
+            updateObject(listElement, (Map) value);
+            listObject.add(listElement);
         }
     }
 
@@ -107,7 +99,12 @@ public class PolicyLoader {
     private Object getFieldObject(Object object, String fieldName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String getter = "get" + capitalize(fieldName);
         Method method = object.getClass().getMethod(getter);
-        return method.invoke(object);
+        Object fieldObject = method.invoke(object);
+
+        if (fieldObject == null) {
+
+        }
+        return fieldObject;
     }
 
 }

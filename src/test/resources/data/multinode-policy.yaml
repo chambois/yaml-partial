@@ -1,10 +1,13 @@
 drivers:
-- update: 1
-  age: 56
-- add: com.thoughtworks.Driver
-  firstName: John
-  lastName: Stoj
-  age: 56
+- firstName: John
+  lastName: Blah
   address:
-    suburb: Fitzroy
-
+    streetNumber: 33
+    street: Blah st
+    suburb: Blah suburb
+- firstName: Bob
+  lastName: ss
+  address:
+    streetNumber: 55
+    street: PP st
+    suburb: PP suburb
