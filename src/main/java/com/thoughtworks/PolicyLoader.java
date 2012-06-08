@@ -1,6 +1,5 @@
 package com.thoughtworks;
 
-import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -19,9 +18,6 @@ public class PolicyLoader {
         InputStream input = new FileInputStream(new File("src/test/resources/data/default-policy.yaml"));
 
         Constructor constructor = new Constructor(Policy.class);
-        TypeDescription policyDescription = new TypeDescription(Policy.class);
-        policyDescription.putListPropertyType("drivers", Driver.class);
-        constructor.addTypeDescription(policyDescription);
         Yaml yaml = new Yaml(constructor);
 
         return yaml.loadAs(input, Policy.class);
