@@ -9,14 +9,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
-import static com.thoughtworks.util.Lists.getGenericClass;
-import static org.apache.commons.lang3.StringUtils.capitalize;
+import static com.thoughtworks.util.TargetObject.targetObject;
 
 public class PolicyLoader {
 
@@ -49,62 +44,7 @@ public class PolicyLoader {
         Policy policy = loadDefaultPolicy();
         Map<String, Object> partialPolicyMap = (Map) loadPartialPolicy(path);
 
-        updateObject(policy, partialPolicyMap);
+        targetObject(policy).update(partialPolicyMap);
         return policy;
     }
-
-    private void updateObject(Object object, Map<String, Object> partialObjectMap) {
-        try {
-            for (Map.Entry<String, Object> entry : partialObjectMap.entrySet()) {
-                String fieldName = entry.getKey();
-                Object value = entry.getValue();
-                if (value instanceof Map) {
-                    updateObject(getFieldObject(object, fieldName), (Map) value);
-                } else if (value instanceof List) {
-                    processList(object, fieldName, (List) value);
-                } else {
-                    object = ifListGetObject(object);
-                    updateField(object, fieldName, value);
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Object ifListGetObject(Object object) {
-        if (object instanceof List) {
-            object = ((List) object).get(0);
-        }
-        return object;
-    }
-
-    private void processList(Object object, String fieldName, List values) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
-        // Get the collection
-        List listObject = (List) getFieldObject(object, fieldName);
-        Class listElementsClass = getGenericClass(object, fieldName);
-        for (Object value : values) {
-            Object listElement = listElementsClass.newInstance();
-            updateObject(listElement, (Map) value);
-            listObject.add(listElement);
-        }
-    }
-
-    private void updateField(Object object, String fieldName, Object value) throws NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Field field = object.getClass().getDeclaredField(fieldName);
-        Method method = object.getClass().getMethod("set" + capitalize(fieldName), field.getType());
-        method.invoke(object, value);
-    }
-
-    private Object getFieldObject(Object object, String fieldName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        String getter = "get" + capitalize(fieldName);
-        Method method = object.getClass().getMethod(getter);
-        Object fieldObject = method.invoke(object);
-
-        if (fieldObject == null) {
-
-        }
-        return fieldObject;
-    }
-
 }

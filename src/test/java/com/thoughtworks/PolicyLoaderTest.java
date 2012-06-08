@@ -61,10 +61,8 @@ public class PolicyLoaderTest {
 
         assertNotNull(variedPolicy);
 
-        assertThat(variedPolicy.getDrivers().get(0).getFirstName(), is("Bob"));
-        assertThat(variedPolicy.getDrivers().get(0).getLastName(), is("Johnson"));
-        assertThat(variedPolicy.getDrivers().get(0).getAge(), is(56));
-        assertThat(variedPolicy.getDrivers().get(0).getAddress().getSuburb(), is("Carlton"));
+        assertThat(variedPolicy.getDrivers().get(0).getFirstName(), is("Joe"));
+        assertThat(variedPolicy.getDrivers().get(1).getFirstName(), is("Bob"));
 
         assertThat(variedPolicy.getCar().getMake(), is("Ford"));
         assertThat(variedPolicy.getCar().getModel(), is("Focus"));
@@ -77,8 +75,9 @@ public class PolicyLoaderTest {
 
         assertNotNull(variedPolicy);
 
-        assertThat(variedPolicy.getDrivers().get(0).getFirstName(), is("Bob"));
+        assertThat(variedPolicy.getDrivers().get(0).getFirstName(), is("Joe"));
         assertThat(variedPolicy.getDrivers().get(1).getFirstName(), is("John"));
+        assertThat(variedPolicy.getDrivers().get(2).getFirstName(), is("Bob"));
 
         assertThat(variedPolicy.getCar().getMake(), is("Ford"));
         assertThat(variedPolicy.getCar().getModel(), is("Focus"));

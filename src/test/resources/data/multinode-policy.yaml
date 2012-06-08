@@ -2,12 +2,12 @@ drivers:
 - firstName: John
   lastName: Blah
   address:
-    streetNumber: 33
+    streetNumber: "33"
     street: Blah st
     suburb: Blah suburb
 - firstName: Bob
   lastName: ss
   address:
-    streetNumber: 55
+    streetNumber: "55"
     street: PP st
     suburb: PP suburb

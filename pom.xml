@@ -18,7 +18,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
         <!--
@@ -59,6 +59,11 @@
             <id>Sonatype-public</id>
             <name>SnakeYAML repository</name>
             <url>http://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>Maven-Repository</id>
+            <name>Maven repository</name>
+            <url>http://mvnrepository.com/artifact/</url>
         </repository>
     </repositories>
 </project>
