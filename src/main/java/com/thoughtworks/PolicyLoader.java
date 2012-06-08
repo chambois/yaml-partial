@@ -27,24 +27,18 @@ public class PolicyLoader {
         return yaml.loadAs(input, Policy.class);
     }
 
-    public Object loadDefaultPolicyAsMap() throws FileNotFoundException {
-        InputStream input = new FileInputStream(new File("src/test/resources/data/default-policy.yaml"));
-        Yaml yaml = new Yaml();
-        return yaml.load(input);
-    }
-
-    public Object loadPartialPolicy(String path) throws FileNotFoundException {
-        InputStream input = new FileInputStream(new File(path));
-        Yaml yaml = new Yaml(new Constructor());
-
-        return yaml.load(input);
-    }
-
     public Policy loadPolicy(String path) throws FileNotFoundException, IntrospectionException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         Policy policy = loadDefaultPolicy();
         Map<String, Object> partialPolicyMap = (Map) loadPartialPolicy(path);
 
         targetObject(policy).update(partialPolicyMap);
         return policy;
+    }
+
+    private Object loadPartialPolicy(String path) throws FileNotFoundException {
+        InputStream input = new FileInputStream(new File(path));
+        Yaml yaml = new Yaml(new Constructor());
+
+        return yaml.load(input);
     }
 }
